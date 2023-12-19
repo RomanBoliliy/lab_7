@@ -10,6 +10,7 @@ public class TableReservationApp
         ReservationManagerClass m = new ReservationManagerClass();
         m.AddRestaurant("A", 10);
         m.AddRestaurant("B", 5);
+        m.BookTable("c", new DateTime(2023, 12, 25), 8);
 
         Console.WriteLine(m.BookTable("A", new DateTime(2023, 12, 25), 3)); // True
         Console.WriteLine(m.BookTable("A", new DateTime(2023, 12, 25), 3)); // False
@@ -42,7 +43,7 @@ public class Table
     {
         try
         {
-            if (bookedDate.Contains(date))
+            if (IsBooked(date))
             {
                 return false;
             }
@@ -149,6 +150,8 @@ public class ReservationManagerClass
     //Метод для перевірки бронювання столику
     public bool BookTable(string resName, DateTime date, int tableNumber)
     {
+        try
+        {
             foreach (var item in curretnRes)
             {
                 if (item.name == resName)
@@ -156,15 +159,22 @@ public class ReservationManagerClass
                     // перевірка номеру столику
                     if (tableNumber < 0 || tableNumber >= item.tables.Length)
                     {
-                        throw new Exception(null);
+                        Console.WriteLine("Error number of table!");
+                        return false;
                     }
 
                     return item.tables[tableNumber].Book(date);
                 }
             }
+            Console.WriteLine("Uncorrect name of restauran");
+            return false;
+        }
+        catch (Exception ex) 
+        {
+            Console.WriteLine("Error: " + ex.Message);
+            return false;
 
-            // не знайдено заданого ресторану
-            throw new Exception(null);
+        }
     }
 
 
@@ -207,9 +217,9 @@ public class ReservationManagerClass
         try
         {
             int count = 0;
-            foreach (var t in res.tables)
+            foreach (var item in res.tables)
             {
-                if (!t.IsBooked(date))
+                if (!item.IsBooked(date))
                 {
                     count++;
                 }
