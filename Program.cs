@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-// Main Application Class
+// Головний клас програми
 public class TableReservationApp
 {
     static void Main(string[] args)
@@ -20,8 +20,10 @@ public class TableReservationApp
 
 public class Restaurant
 {
-    public string name;
-    public Table[] tables;
+    private string Name;
+    private Table[] Tables;
+    public string name { get; set; }
+    public Table[] tables { get; set; }
 }
 
 
@@ -44,7 +46,7 @@ public class Table
             {
                 return false;
             }
-            //add to bd
+            //Додавання запису в БД
             bookedDate.Add(date);
             return true;
         }
@@ -68,7 +70,7 @@ public class Table
 public class ReservationManagerClass
 {
    
-    public List<Restaurant> curretnRes;
+    private List<Restaurant> curretnRes;
 
     public ReservationManagerClass()
     {
