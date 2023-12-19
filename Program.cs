@@ -16,13 +16,60 @@ public class TableReservationApp
     }
 }
 
+
+
+public class Restaurant
+{
+    public string name;
+    public Table[] tables;
+}
+
+
+public class Table
+{
+    private List<DateTime> bookedDate;
+
+
+    public Table()
+    {
+        bookedDate = new List<DateTime>();
+    }
+
+    // Метод для бронювання 
+    public bool Book(DateTime date)
+    {
+        try
+        {
+            if (bookedDate.Contains(date))
+            {
+                return false;
+            }
+            //add to bd
+            bookedDate.Add(date);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+            return false;
+        }
+    }
+
+    // Перевірка чи заброньовано в певний час
+    public bool IsBooked(DateTime date)
+    {
+        return bookedDate.Contains(date);
+    }
+}
+
+
+
 // Reservation Manager Class
 public class ReservationManagerClass
 {
    
     public List<Restaurant> curretnRes;
 
-    //конструктор за замовчуванням
     public ReservationManagerClass()
     {
         curretnRes = new List<Restaurant>();
@@ -44,7 +91,7 @@ public class ReservationManagerClass
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error");
+            Console.WriteLine("Error: " + ex.Message);
         }
     }
 
@@ -69,7 +116,7 @@ public class ReservationManagerClass
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error");
+            Console.WriteLine("Error: " + ex.Message);
         }
     }
 
@@ -93,30 +140,31 @@ public class ReservationManagerClass
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error");
+            Console.WriteLine("Error: " + ex.Message);
             return new List<string>();
         }
     }
     //Метод для перевірки бронювання столику
     public bool BookTable(string resName, DateTime date, int tableNumber)
     {
-        foreach (var item in curretnRes)
-        {
-            if (item.name == resName)
+            foreach (var item in curretnRes)
             {
-                // перевірка номеру столику
-                if (tableNumber < 0 || tableNumber >= item.tables.Length)
+                if (item.name == resName)
                 {
-                    throw new Exception(null); 
+                    // перевірка номеру столику
+                    if (tableNumber < 0 || tableNumber >= item.tables.Length)
+                    {
+                        throw new Exception(null);
+                    }
+
+                    return item.tables[tableNumber].Book(date);
                 }
-
-                return item.tables[tableNumber].Book(date);
             }
-        }
 
-        // не знайдено заданого ресторану
-        throw new Exception(null); 
+            // не знайдено заданого ресторану
+            throw new Exception(null);
     }
+
 
     // метод для сортування по доступності
     public void SortRes(DateTime date)
@@ -130,9 +178,9 @@ public class ReservationManagerClass
                 for (int i = 0; i < curretnRes.Count - 1; i++)
                 {
                     // Поточний доступний стіл
-                    int currentAvTable = CountAvTable(curretnRes[i], date);
+                    var currentAvTable = CountAvTable(curretnRes[i], date);
                     // Наступний доступний стіл
-                    int nextAvTable = CountAvTable(curretnRes[i + 1], date); 
+                    var nextAvTable = CountAvTable(curretnRes[i + 1], date); 
 
                     if (currentAvTable < nextAvTable)
                     {
@@ -147,7 +195,7 @@ public class ReservationManagerClass
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error");
+            Console.WriteLine("Error: " + ex.Message);
         }
     }
 
@@ -168,53 +216,9 @@ public class ReservationManagerClass
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Error");
+            Console.WriteLine("Error: " + ex.Message);
             return 0;
         }
     }
 }
 
-
-public class Restaurant
-{
-    public string name; 
-    public Table[] tables; 
-}
-
-
-public class Table
-{
-    private List<DateTime> bookedDate; 
-
-
-    public Table()
-    {
-        bookedDate = new List<DateTime>();
-    }
-
-    // Метод для бронювання 
-    public bool Book(DateTime date)
-    {
-        try
-        { 
-            if (bookedDate.Contains(date))
-            {
-                return false;
-            }
-            //add to bd
-            bookedDate.Add(date);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error");
-            return false;
-        }
-    }
-
-    // Перевірка чи заброньовано в певний час
-    public bool IsBooked(DateTime date)
-    {
-        return bookedDate.Contains(date);
-    }
-}
