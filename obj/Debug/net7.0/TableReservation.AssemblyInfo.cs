@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("ConsoleAppRestaurantTableReservationManager")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("TableReservation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("ConsoleAppRestaurantTableReservationManager")]
-[assembly: System.Reflection.AssemblyTitleAttribute("ConsoleAppRestaurantTableReservationManager")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7470f81476d5e8022d90f0e5066fd0a622c03358")]
+[assembly: System.Reflection.AssemblyProductAttribute("TableReservation")]
+[assembly: System.Reflection.AssemblyTitleAttribute("TableReservation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Создано классом WriteCodeFragment MSBuild.

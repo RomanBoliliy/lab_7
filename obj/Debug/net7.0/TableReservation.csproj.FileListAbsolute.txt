@@ -1,0 +1,15 @@
+C:\Users\Роман\Desktop\lab_7-master\lab_7\bin\Debug\net7.0\TableReservation.exe
+C:\Users\Роман\Desktop\lab_7-master\lab_7\bin\Debug\net7.0\TableReservation.deps.json
+C:\Users\Роман\Desktop\lab_7-master\lab_7\bin\Debug\net7.0\TableReservation.runtimeconfig.json
+C:\Users\Роман\Desktop\lab_7-master\lab_7\bin\Debug\net7.0\TableReservation.dll
+C:\Users\Роман\Desktop\lab_7-master\lab_7\bin\Debug\net7.0\TableReservation.pdb
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.AssemblyInfoInputs.cache
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.AssemblyInfo.cs
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.csproj.CoreCompileInputs.cache
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.sourcelink.json
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.dll
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\refint\TableReservation.dll
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.pdb
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\TableReservation.genruntimeconfig.cache
+C:\Users\Роман\Desktop\lab_7-master\lab_7\obj\Debug\net7.0\ref\TableReservation.dll

@@ -8,8 +8,8 @@ public class TableReservationApp
     static void Main(string[] args)
     {
         ReservationManagerClass m = new ReservationManagerClass();
-        m.AddRestaurantMethod("A", 10);
-        m.AddRestaurantMethod("B", 5);
+        m.AddRestaurant("A", 10);
+        m.AddRestaurant("B", 5);
 
         Console.WriteLine(m.BookTable("A", new DateTime(2023, 12, 25), 3)); // True
         Console.WriteLine(m.BookTable("A", new DateTime(2023, 12, 25), 3)); // False
@@ -19,27 +19,28 @@ public class TableReservationApp
 // Reservation Manager Class
 public class ReservationManagerClass
 {
-    // res
-    public List<RestaurantClass> res;
+   
+    public List<Restaurant> curretnRes;
 
+    //конструктор за замовчуванням
     public ReservationManagerClass()
     {
-        res = new List<RestaurantClass>();
+        curretnRes = new List<Restaurant>();
     }
 
-    // Add Restaurant Method
-    public void AddRestaurantMethod(string n, int t)
+    // Метод для додавання ресторану
+    public void AddRestaurant(string name, int table)
     {
         try
         {
-            RestaurantClass r = new RestaurantClass();
-            r.n = n;
-            r.t = new RestaurantTableClass[t];
-            for (int i = 0; i < t; i++)
+            Restaurant res = new Restaurant();
+            res.name = name;
+            res.tables = new Table[table];
+            for (int i = 0; i < table; i++)
             {
-                r.t[i] = new RestaurantTableClass();
+                res.tables[i] = new Table();
             }
-            res.Add(r);
+            curretnRes.Add(res);
         }
         catch (Exception ex)
         {
@@ -47,23 +48,22 @@ public class ReservationManagerClass
         }
     }
 
-    // Load Restaurants From
-    // File
-    private void LoadRestaurantsFromFileMethod(string fileP)
+    // Метод для завантаження даних з файлу
+    private void LoadResFromFile(string fileP)
     {
         try
         {
-            string[] ls = File.ReadAllLines(fileP);
-            foreach (string l in ls)
+            string[] source = File.ReadAllLines(fileP);
+            foreach (string item in source)
             {
-                var parts = l.Split(',');
+                var parts = item.Split(',');
                 if (parts.Length == 2 && int.TryParse(parts[1], out int tableCount))
                 {
-                    AddRestaurantMethod(parts[0], tableCount);
+                    AddRestaurant(parts[0], tableCount);
                 }
                 else
                 {
-                    Console.WriteLine(l);
+                    Console.WriteLine(item);
                 }
             }
         }
@@ -73,19 +73,19 @@ public class ReservationManagerClass
         }
     }
 
-    //Find All Free Tables
-    public List<string> FindAllFreeTables(DateTime dt)
+    // Метод для знаходження всіх вільних столиків
+    public List<string> FreeTables(DateTime date)
     {
         try
         { 
             List<string> free = new List<string>();
-            foreach (var r in res)
+            foreach (var item in curretnRes)
             {
-                for (int i = 0; i < r.t.Length; i++)
+                for (int i = 0; i < item.tables.Length; i++)
                 {
-                    if (!r.t[i].IsBooked(dt))
+                    if (!item.tables[i].IsBooked(date))
                     {
-                        free.Add($"{r.n} - Table {i + 1}");
+                        free.Add($"{item.name} - Table {i + 1}");
                     }
                 }
             }
@@ -97,48 +97,53 @@ public class ReservationManagerClass
             return new List<string>();
         }
     }
-
-    public bool BookTable(string rName, DateTime d, int tNumber)
+    //Метод для перевірки бронювання столику
+    public bool BookTable(string resName, DateTime date, int tableNumber)
     {
-        foreach (var r in res)
+        foreach (var item in curretnRes)
         {
-            if (r.n == rName)
+            if (item.name == resName)
             {
-                if (tNumber < 0 || tNumber >= r.t.Length)
+                // перевірка номеру столику
+                if (tableNumber < 0 || tableNumber >= item.tables.Length)
                 {
-                    throw new Exception(null); //Invalid table number
+                    throw new Exception(null); 
                 }
 
-                return r.t[tNumber].Book(d);
+                return item.tables[tableNumber].Book(date);
             }
         }
 
-        throw new Exception(null); //Restaurant not found
+        // не знайдено заданого ресторану
+        throw new Exception(null); 
     }
 
-    public void SortRestaurantsByAvailabilityForUsersMethod(DateTime dt)
+    // метод для сортування по доступності
+    public void SortRes(DateTime date)
     {
         try
         { 
-            bool swapped;
+            bool isSwapped;
             do
             {
-                swapped = false;
-                for (int i = 0; i < res.Count - 1; i++)
+                isSwapped = false;
+                for (int i = 0; i < curretnRes.Count - 1; i++)
                 {
-                    int avTc = CountAvailableTablesForRestaurantClassAndDateTimeMethod(res[i], dt); // available tables current
-                    int avTn = CountAvailableTablesForRestaurantClassAndDateTimeMethod(res[i + 1], dt); // available tables next
+                    // Поточний доступний стіл
+                    int currentAvTable = CountAvTable(curretnRes[i], date);
+                    // Наступний доступний стіл
+                    int nextAvTable = CountAvTable(curretnRes[i + 1], date); 
 
-                    if (avTc < avTn)
+                    if (currentAvTable < nextAvTable)
                     {
-                        // Swap restaurants
-                        var temp = res[i];
-                        res[i] = res[i + 1];
-                        res[i + 1] = temp;
-                        swapped = true;
+                        // Зміна ресторану
+                        var temp = curretnRes[i];
+                        curretnRes[i] = curretnRes[i + 1];
+                        curretnRes[i + 1] = temp;
+                        isSwapped = true;
                     }
                 }
-            } while (swapped);
+            } while (isSwapped);
         }
         catch (Exception ex)
         {
@@ -146,15 +151,15 @@ public class ReservationManagerClass
         }
     }
 
-    // count available tables in a restaurant
-    public int CountAvailableTablesForRestaurantClassAndDateTimeMethod(RestaurantClass r, DateTime dt)
+    // Метод для підрахунку доступних столів в ресторані за вказаний час
+    public int CountAvTable(Restaurant res, DateTime date)
     {
         try
         {
             int count = 0;
-            foreach (var t in r.t)
+            foreach (var t in res.tables)
             {
-                if (!t.IsBooked(dt))
+                if (!t.IsBooked(date))
                 {
                     count++;
                 }
@@ -169,35 +174,35 @@ public class ReservationManagerClass
     }
 }
 
-// Restaurant Class
-public class RestaurantClass
+
+public class Restaurant
 {
-    public string n; //name
-    public RestaurantTableClass[] t; // tables
+    public string name; 
+    public Table[] tables; 
 }
 
-// Table Class
-public class RestaurantTableClass
+
+public class Table
 {
-    private List<DateTime> bd; //booked dates
+    private List<DateTime> bookedDate; 
 
 
-    public RestaurantTableClass()
+    public Table()
     {
-        bd = new List<DateTime>();
+        bookedDate = new List<DateTime>();
     }
 
-    // book
-    public bool Book(DateTime d)
+    // Метод для бронювання 
+    public bool Book(DateTime date)
     {
         try
         { 
-            if (bd.Contains(d))
+            if (bookedDate.Contains(date))
             {
                 return false;
             }
             //add to bd
-            bd.Add(d);
+            bookedDate.Add(date);
             return true;
         }
         catch (Exception ex)
@@ -207,9 +212,9 @@ public class RestaurantTableClass
         }
     }
 
-    // is booked
-    public bool IsBooked(DateTime d)
+    // Перевірка чи заброньовано в певний час
+    public bool IsBooked(DateTime date)
     {
-        return bd.Contains(d);
+        return bookedDate.Contains(date);
     }
 }

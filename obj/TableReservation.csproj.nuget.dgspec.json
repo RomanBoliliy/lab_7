@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\ConsoleAppRestaurantTableReservationManager.csproj": {}
+    "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\TableReservation.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\ConsoleAppRestaurantTableReservationManager.csproj": {
+    "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\TableReservation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\ConsoleAppRestaurantTableReservationManager.csproj",
-        "projectName": "ConsoleAppRestaurantTableReservationManager",
-        "projectPath": "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\ConsoleAppRestaurantTableReservationManager.csproj",
+        "projectUniqueName": "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\TableReservation.csproj",
+        "projectName": "TableReservation",
+        "projectPath": "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\TableReservation.csproj",
         "packagesPath": "C:\\Users\\Роман\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Роман\\Desktop\\lab_7-master\\lab_7\\obj\\",
         "projectStyle": "PackageReference",
